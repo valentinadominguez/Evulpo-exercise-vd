@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <title>Evulpo VD</title>
+</head>
+<body>
+    <div class="progress">
+        <div class="progress-bar" id="myBar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+    <p class="question" id="question"></p>
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md">
+				<div class="option" id="option1" onclick="toggleChoice(0,this.id)"></div>
+			</div>
+			<div class="col-md">
+				<div class="option" id="option2" onclick="toggleChoice(1,this.id)"></div>
+			</div>
+			<div class="col-md" id="div3">
+				<div class="option" id="option3" onclick="toggleChoice(2,this.id)"></div>
+			</div>
+            <div class="d-none col-md" id="lastDiv">
+				<div class="option" id="option4" onclick="toggleChoice(3,this.id)"></div>
+			</div>
+		</div>
+		<button class="evaluate_btn" id="evaluate" onclick="myEvaluation()">Evaluate!</button>
+	</div>
+	<div class="evaluation-message-right" id="evaluation-message-right" >Awesome! :)</div>
+	<div class="evaluation-message-wrong" id="evaluation-message-wrong" >Keep trying! :(</div>
+    <button class="next_btn" id="next" onclick="move()" style="display: none;">Next</button>
+    <script>
+                // this is a basic connection schema to the corresponding data for the table provided.
+                // this API KEY will expire after January 2022
+                // Written by GSoosalu & ndr3svt
+                const API_KEY = 'AIzaSyCfuQLHd0Aha7KuNvHK0p6V6R_0kKmsRX4';
+                const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+                const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+                let exerciseIndex;
+                let exerciseData;
+                let options;
+                let states = [];
+                let correct_answer_index;
+                let chosen_answer_index;
+                let arrData;
+                let selectindx;
+                let curArray;
+                let rightindx;
+                let score;
+                let finalScore = 0;
+                let selected_id;
+
+                function handleClientLoad() {
+                    gapi.load('client', initClient);
+                }
+
+                function initClient() {
+                    gapi.client.init({
+                    apiKey: API_KEY,
+                    discoveryDocs: DISCOVERY_DOCS
+                    }).then(function () {
+                    getExerciseData();
+                    }, function(error) {
+                    console.log(JSON.stringify(error, null, 2));
+                    });
+                }
+
+                function getExerciseData() {
+                    gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: '1hzA42BEzt2lPvOAePP6RLLRZKggbg0RWuxSaEwd5xLc',
+                    range: 'Learning!A1:F10',
+                    }).then(function(response) {
+                        console.log(response);
+                        console.log(response.result.values);
+                        response.result.values.shift();
+                        arrData = response.result.values;
+                        getAnswers();
+
+                    }, function(response) {
+                        console.log('Error: ' + response.result.error.message);
+                    });
+                }
+
+                function getAnswers(){
+                        let rand = Math.floor(Math.random()*arrData.length);
+                        let rValue = arrData[rand];
+                        curArray = rValue
+                        rightindx = curArray[4];
+                        document.getElementById("question").innerHTML = rValue[2];
+                        let arrAnswers = rValue[3];
+                        score = rValue[5];
+                        let finalAnswers = arrAnswers.split(";")
+                        console.log(finalAnswers);
+                        document.getElementById("option1").innerHTML = finalAnswers[0];
+                        document.getElementById("option2").innerHTML = finalAnswers[1];
+
+                        if (finalAnswers[2] === undefined || finalAnswers[2] === null ) {
+                            let x = document.getElementById("div3");
+                            x.style.display = "none";
+                        }else {                       
+                            document.getElementById("option3").innerHTML = finalAnswers[2];
+                        }
+
+                        if (finalAnswers.length > 3){
+                            let z = document.getElementById("lastDiv");
+                            let x = document.getElementById("option4");
+                            z.classList.remove("d-none");
+                            x.innerHTML = finalAnswers[3];
+                        }
+                }
+
+                function toggleChoice(index,id){
+                    changeClass(id)
+                    selected_id = id;
+                    selectindx = index;
+                    console.log(selectindx);
+                    console.log(rightindx);
+                    
+                   
+                }
+
+                function changeClass(id){
+                    document.getElementsByClassName("option-selected")[0].className="option";
+                    document.getElementById(id).className = "option-selected";
+                }
+
+
+                function myEvaluation(){
+                    let x = document.getElementById("evaluation-message-right");
+                    let y = document.getElementById("evaluation-message-wrong");
+                    let next_btn = document.getElementById("next");
+                    let evaluate_btn = document.getElementById("evaluate");
+
+
+                    if (selectindx == rightindx) {
+                        x.style.display = next_btn.style.display = "block";
+                        y.style.display = evaluate_btn.style.display = "none";
+                        document.getElementById(selected_id).className = "option-success";
+                        finalScore =+ score;
+                    } else {
+                        y.style.display = "block";
+                        x.style.display = "none";
+                        evaluate_btn.style.display = "block";
+                        next_btn.style.display = "none";
+                        document.getElementById(selected_id).className = "option-failure";
+                    }
+                    
+                } 
+
+               
+                function setBarWidth(width) {
+                    let elem = document.getElementById("myBar");
+                    elem.style.width = width + "%";
+                    elem.innerHTML = width  + "%";
+                    
+                }
+                
+
+    </script>
+
+    <script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
+    
+
+
+
+</body>
+</html>
