@@ -11,8 +11,8 @@
 </head>
 <body>
     <div class="progress">
-        <div class="progress-bar" id="myBar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-      </div>
+        <div class="progress-bar bg-success" id="myBar" role="progressbar" style="width: 30%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Question 1 of 3</div>
+    </div>
     <p class="question" id="question"></p>
     <div class="container-fluid">
 		<div class="row">
@@ -115,19 +115,17 @@
                 }
 
                 function toggleChoice(index,id){
-                    changeClass(id)
+                    //changeClass(id)
                     selected_id = id;
                     selectindx = index;
                     console.log(selectindx);
-                    console.log(rightindx);
-                    
-                   
+                    console.log(rightindx);   
                 }
 
-                function changeClass(id){
-                    document.getElementsByClassName("option-selected")[0].className="option";
-                    document.getElementById(id).className = "option-selected";
-                }
+                // function changeClass(id){
+                //     document.getElementsByClassName("option-selected")[0].className="option";
+                //     document.getElementById(id).className = "option-selected";
+                // }
 
 
                 function myEvaluation(){

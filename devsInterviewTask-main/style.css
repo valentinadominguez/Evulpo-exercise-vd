@@ -4,6 +4,9 @@
 	font-size: 24px;
 	color: #636363;
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	margin-top: 50px;
+	padding-right: 30px;
+    padding-left: 30px;
 }
 .unchosen{
 	transition: all 0.15s;
@@ -27,6 +30,7 @@
 	margin: auto;
 	padding: 10px;
 	cursor: pointer;
+	margin-bottom: 20px;
 }
 
 .option:hover{
@@ -48,6 +52,7 @@
 	padding: 10px;
 	background-color: lightgrey;
 	font-weight: 700;
+	margin-bottom: 20px;
 }
 
 .option-success{
@@ -62,6 +67,7 @@
 	padding: 10px;
 	background-color: white;
 	font-weight: 700;
+	margin-bottom: 20px;
 }
 
 .option-failure{
@@ -76,6 +82,7 @@
 	padding: 10px;
 	background-color: white;
 	font-weight: 700;
+	margin-bottom: 20px;
 }
 
 .text{
@@ -175,25 +182,11 @@
 	display: flex;	
 }
 
-.col-md-4 {
-margin: 20px;
-}
-
-#lastDiv>#option4{
-    visibility: visible;
-	display: block;
-}
-
-.progress-bar {
-	width: 100%;
-	background-color: #ddd;
-  }
-  
-.bar{
-	width: 0%;
-	height: 30px;
-	background-color: #04AA6D;
-	text-align: center;
-	line-height: 30px;
-	color: white;
+.progress{
+	height: 30px !important;
+	background-color: #636363 !important;
+	border-radius: 100px !important;
+	margin: 30px auto auto auto !important;
+	width: 80%;
+	
 }
