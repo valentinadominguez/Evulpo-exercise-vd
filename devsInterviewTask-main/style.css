@@ -112,6 +112,10 @@
 	display: flex;	
 }
 
+#nextBtn{
+	display: none;
+}
+
 .standard-btn:hover{
 	background-color: #5E64C4;
 	color: white;
@@ -165,6 +169,7 @@
 
 .progress-bar{
 	background-color: #5E64C4 !important;
+	width: 33%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100;
 }
 
 .img-container{

@@ -4,19 +4,14 @@
 const API_KEY = 'AIzaSyCfuQLHd0Aha7KuNvHK0p6V6R_0kKmsRX4';
 const DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
-let exerciseIndex;
 let exerciseData;
-let options;
-let states = [];
-let correct_answer_index;
-let chosen_answer_index;
 let arrData;
 let selectindx;
 let currentArray;
 let rightindx;
 let score = 0;
 let finalScore = 0;
-let selected_id;
+let selectedID;
 let clicked = false;
 let nextCounter = 0;
 
@@ -84,14 +79,14 @@ function getAnswers() {
 
 
 function toggleChoice(index, id) {
-    selected_id = id;
+    selectedID = id;
     selectindx = index;
 
     if (document.getElementsByClassName("option-selected").length > 0) {
         document.getElementsByClassName("option-selected")[0].className = "option";
     }
 
-    document.getElementById(selected_id).className = "option-selected";
+    document.getElementById(selectedID).className = "option-selected";
 }
 
 function myEvaluation() {
@@ -104,13 +99,13 @@ function myEvaluation() {
     if (selectindx == rightindx) {
         right_msg.style.display = next_btn.style.display = "block";
         wrong_msg.style.display = evaluate_btn.style.display = "none";
-        document.getElementById(selected_id).className = "option-success";
+        document.getElementById(selectedID).className = "option-success";
         finalScore = finalScore + parseInt(score);
 
     } else {
         wrong_msg.style.display = next_btn.style.display = "block";
         evaluate_btn.style.display = right_msg.style.display = "none";
-        document.getElementById(selected_id).className = "option-failure";
+        document.getElementById(selectedID).className = "option-failure";
         finalScore = finalScore + 0;
     }
 }
@@ -121,7 +116,7 @@ function goNext() {
     getAnswers();
     document.getElementById("nextBtn").style.display = "none";
     document.getElementById("evaluateBtn").style.display = "block";
-    document.getElementById("score-label").innerHTML = "Your score is: " + finalScore;
+    document.getElementById("scoreLabel").innerHTML = "Your score is: " + finalScore;
 
     if (document.getElementsByClassName("option-failure").length > 0) {
         document.getElementsByClassName("option-failure")[0].className = "option";
